@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import messagesMiddleware from '../middleWare/messagesMiddleware';
 import messageController from '../controllers/messageController';
+import messagesMiddleware from '../middleWare/messagesMiddleware';
 
 const router = Router();
 

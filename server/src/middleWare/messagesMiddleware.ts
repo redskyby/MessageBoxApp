@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 import ErrorHandler from '../classes/ErrorHandler';

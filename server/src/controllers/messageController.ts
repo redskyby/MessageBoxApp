@@ -16,7 +16,7 @@ class messageController {
                 return;
             }
 
-            const newUser = await UserModel.create({
+            await UserModel.create({
                 name,
                 phone,
                 message,

@@ -1,10 +1,10 @@
-import  { useState } from 'react';
+import { Spin } from 'antd';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { IMaskInput } from 'react-imask';
-import {ADD_MESSAGE} from "../const/fetchRoutes.ts";
-import type {FormData} from "../types";
-import {Spin} from "antd";
 
+import { ADD_MESSAGE } from '../const/fetchRoutes.ts';
+import type { FormData } from '../types';
 
 const FormPage = () => {
     const {
@@ -20,50 +20,49 @@ const FormPage = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [serverMessage, setServerMessage] = useState<string | null>(null);
-    const [loader, setLoader] = useState<boolean>(false)
+    const [loader, setLoader] = useState<boolean>(false);
 
     const onSubmit = async (data: FormData) => {
         try {
-            setLoader(true)
+            setLoader(true);
             setIsSubmitting(true);
             setServerMessage(null);
 
-           const res = await fetch(ADD_MESSAGE, {
+            const res = await fetch(ADD_MESSAGE, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     name: data.name,
                     phone: data.phone,
-                    message: data.message
-                })
+                    message: data.message,
+                }),
             });
 
             if (!res.ok) {
                 throw new Error(`Ошибка загрузки: ${res.status}`);
             }
 
-            reset()
+            reset();
 
             setServerMessage('✅ Форма успешно отправлена!');
-
         } catch (err) {
+            console.log(err);
             setServerMessage('❌ Ошибка отправки. Попробуйте ещё раз.');
         } finally {
-            setLoader(false)
+            setLoader(false);
             setIsSubmitting(false);
         }
     };
 
     if (loader) {
         return (
-            <div className="flex justify-center items-center h-64">
+            <div className="flex h-64 items-center justify-center">
                 <Spin tip="Загрузка сообщений..." size="large" />
             </div>
         );
     }
-
 
     return (
         <div className={'flex h-screen w-full items-center justify-center'}>
