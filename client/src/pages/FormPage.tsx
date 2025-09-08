@@ -1,43 +1,69 @@
-import { useState } from 'react';
+import  { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { IMaskInput } from 'react-imask';
+import {ADD_MESSAGE} from "../const/fetchRoutes.ts";
+import type {FormData} from "../types";
+import {Spin} from "antd";
 
-type FormData = {
-    name: string;
-    phone: string;
-    message: string;
-};
 
 const FormPage = () => {
     const {
         register,
         handleSubmit,
         control,
+        reset,
         formState: { errors, isValid },
     } = useForm<FormData>({
-        mode: 'onChange', // проверка валидности в реальном времени
+        mode: 'onChange',
         defaultValues: { name: '', phone: '', message: '' },
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [serverMessage, setServerMessage] = useState<string | null>(null);
+    const [loader, setLoader] = useState<boolean>(false)
 
     const onSubmit = async (data: FormData) => {
-        setIsSubmitting(true);
-        setServerMessage(null);
-
         try {
-            // имитация отправки на сервер
-            console.log(data);
+            setLoader(true)
+            setIsSubmitting(true);
+            setServerMessage(null);
+
+           const res = await fetch(ADD_MESSAGE, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: data.name,
+                    phone: data.phone,
+                    message: data.message
+                })
+            });
+
+            if (!res.ok) {
+                throw new Error(`Ошибка загрузки: ${res.status}`);
+            }
+
+            reset()
 
             setServerMessage('✅ Форма успешно отправлена!');
-            // reset();
+
         } catch (err) {
             setServerMessage('❌ Ошибка отправки. Попробуйте ещё раз.');
         } finally {
+            setLoader(false)
             setIsSubmitting(false);
         }
     };
+
+    if (loader) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <Spin tip="Загрузка сообщений..." size="large" />
+            </div>
+        );
+    }
+
 
     return (
         <div className={'flex h-screen w-full items-center justify-center'}>
