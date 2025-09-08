@@ -3,10 +3,6 @@ config();
 import mongoose from 'mongoose';
 
 const connectDB = async (): Promise<boolean> => {
-    if (mongoose.connections[0].readyState) {
-        return true;
-    }
-
     try {
         const mongoUri = process.env.MONGO_URL;
 
