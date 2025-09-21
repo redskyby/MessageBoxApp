@@ -8,16 +8,14 @@
 - **Backend**: Node.js + Express + TypeScript
 - **CI/CD tooling**: ESLint Flat Config, Prettier, Husky
 - **DevOps**: Docker + docker-compose
-- **Database**: MongoDB (облачная)
+- **Database**: MongoDB
 
 ## 📦 Установка
 
 ```bash
-git clone https://github.com/your-username/messageboxapp.git
-cd messageboxapp
+git clone https://github.com/redskyby/MessageBoxApp.git
+cd MessageBoxApp
 docker-compose up --build
-
-⚠️ Важно: для подключения к облачной MongoDB может потребоваться VPN, если доступ к серверу базы ограничен по региону или IP.
 
 🔧 Особенности
 
